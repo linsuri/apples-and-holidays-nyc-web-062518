@@ -42,7 +42,7 @@ end
 def add_new_holiday_with_supplies(holiday_hash, season, holiday_name, supply_array)
   # code here
   # remember to return the updated hash
-  holiday_hash[season].each do |seas, holid|
+  holiday_hash.each do |seas, holid|
     if seas == season.to_sym
       seas[holiday_name] = supply_array
     end

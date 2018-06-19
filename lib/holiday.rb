@@ -26,7 +26,7 @@ def add_supply_to_winter_holidays(holiday_hash, supply)
   # add the second argument, which is a supply, to BOTH the
   # Christmas AND the New Year's arrays
   holiday_hash[:winter].each do |holiday, supp|
-    holiday << supply
+    supp << supply
   end  
 end
 
@@ -35,15 +35,14 @@ def add_supply_to_memorial_day(holiday_hash, supply)
   # again, holiday_hash is the same as the ones above
   # add the second argument to the memorial day array
   holiday_hash[:spring].each do |holiday, supp|
-    holiday << supply
+    supp << supply
   end  
 end
 
 def add_new_holiday_with_supplies(holiday_hash, season, holiday_name, supply_array)
   # code here
   # remember to return the updated hash
-  holiday_hash[:season] = [:holiday_name]
-  holiday_hash[:season][:holiday_name] = supply_array
+  holiday_hash[season][holiday_name] = supply_array
   holiday_hash
 end
 
@@ -53,6 +52,7 @@ def all_winter_holiday_supplies(holiday_hash)
   holiday_hash[:winter].each do |holiday_name, supp|
     supply_array << supp
   end
+  supply_array.flatten
 end
 
 def all_supplies_in_holidays(holiday_hash)
@@ -63,14 +63,10 @@ def all_supplies_in_holidays(holiday_hash)
   # Summer:
   #   Fourth Of July: Fireworks, BBQ
   # etc.
-  output = nil
   holiday_hash.each do |season, holiday_name|
-    season.each do |holiday_name, supplies|
-      output << "#{season.to_s.capitalize!}: "
-      output << "#{holiday_name.to_s.split(" ").capitalize!.join}: "
-      supplies.each do |supply|
-        output << "#{supply}"
-      end
+    puts "#{season.to_s.capitalize!}:"
+    holiday_name.each do |holiday, supplies|
+      puts "  #{holiday.to_s.split('_').map {|x| x.capitalize!}.join(' ')}: " + "#{supplies.join(', ')}"
     end  
   end  
 end
@@ -78,7 +74,17 @@ end
 def all_holidays_with_bbq(holiday_hash)
   # return an array of holiday names (as symbols) where supply lists
   # include the string "BBQ"
-
+  output = []
+  holiday_hash.each do |season, holiday_name|
+    holiday_name.each do |holiday, supplies|
+      supplies.each do |x| 
+        if x == "BBQ"
+          output << holiday
+        end  
+      end
+    end 
+  end
+  output
 end
 
 
